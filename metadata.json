@@ -1,0 +1,5 @@
+{
+  "name": "CafeOrder",
+  "description": "A dynamic online ordering menu for a coffee & dessert shop. Customers can browse the menu, select items, and place orders. Admin/Barista can view incoming orders in real time, update their status, and manage the menu.",
+  "requestFramePermissions": []
+}
