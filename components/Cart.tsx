@@ -1,6 +1,9 @@
-
 import React from 'react';
 import { CartItem } from '../types';
+import { MinusIcon } from './icons/MinusIcon';
+import { PlusIcon } from './icons/PlusIcon';
+import { TrashIcon } from './icons/TrashIcon';
+import { ShoppingCartIcon } from './icons/ShoppingCartIcon';
 
 interface CartProps {
   cartItems: CartItem[];
@@ -17,8 +20,9 @@ export const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onPlace
   const handlePlaceOrder = () => {
     if (customerName.trim() && cartItems.length > 0) {
       setIsOrdering(true);
-      onPlaceOrder(customerName);
+      // Simulate network request
       setTimeout(() => {
+        onPlaceOrder(customerName);
         setCustomerName('');
         setIsOrdering(false);
       }, 1000);
@@ -26,36 +30,43 @@ export const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onPlace
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-xl sticky top-24">
-      <h2 className="text-2xl font-bold font-serif text-primary border-b-2 border-secondary pb-2 mb-4">Your Order</h2>
+    <div className="bg-white p-6 rounded-lg shadow-xl sticky top-24 animate-fadeIn">
+      <h2 className="text-2xl font-bold font-serif text-primary border-b-2 border-secondary pb-2 mb-4 flex items-center">
+        <ShoppingCartIcon className="w-6 h-6 mr-3 text-secondary"/>
+        Your Order
+      </h2>
       {cartItems.length === 0 ? (
-        <p className="text-gray-500">Your cart is empty.</p>
+        <div className="text-center py-10">
+            <ShoppingCartIcon className="w-16 h-16 mx-auto text-gray-300"/>
+            <p className="text-gray-500 mt-4">Your cart is empty.</p>
+            <p className="text-sm text-gray-400">Add items from the menu to get started.</p>
+        </div>
       ) : (
         <>
-          <div className="space-y-4 max-h-64 overflow-y-auto pr-2">
+          <div className="space-y-4 max-h-64 overflow-y-auto pr-2 -mr-2">
             {cartItems.map(item => (
               <div key={item.id} className="flex justify-between items-center">
                 <div>
-                  <p className="font-semibold">{item.name}</p>
-                  <p className="text-sm text-gray-500">${item.price.toFixed(2)}</p>
+                  <p className="font-semibold text-primary-dark">{item.name}</p>
+                  <p className="text-sm text-gray-500">${item.price.toFixed(2)} x {item.quantity}</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <input
-                    type="number"
-                    min="1"
-                    value={item.quantity}
-                    onChange={(e) => onUpdateQuantity(item.id, parseInt(e.target.value))}
-                    className="w-16 p-1 border rounded-md text-center"
-                  />
-                   <button onClick={() => onUpdateQuantity(item.id, 0)} className="text-red-500 hover:text-red-700">
-                    &times;
+                   <button onClick={() => onUpdateQuantity(item.id, item.quantity - 1)} className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
+                    <MinusIcon className="w-4 h-4"/>
+                  </button>
+                  <span className="w-8 text-center font-bold">{item.quantity}</span>
+                   <button onClick={() => onUpdateQuantity(item.id, item.quantity + 1)} className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
+                    <PlusIcon className="w-4 h-4"/>
+                  </button>
+                  <button onClick={() => onUpdateQuantity(item.id, 0)} className="text-gray-400 hover:text-red-500 ml-2 transition-colors">
+                    <TrashIcon className="w-5 h-5"/>
                   </button>
                 </div>
               </div>
             ))}
           </div>
           <div className="mt-6 border-t pt-4">
-            <div className="flex justify-between items-center text-xl font-bold">
+            <div className="flex justify-between items-center text-xl font-bold text-primary-dark">
               <span>Total:</span>
               <span>${total.toFixed(2)}</span>
             </div>
@@ -65,13 +76,13 @@ export const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onPlace
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     placeholder="Your Name"
-                    className="w-full p-2 border rounded-md focus:ring-2 focus:ring-secondary focus:outline-none"
+                    className="w-full p-3 border rounded-md focus:ring-2 focus:ring-secondary focus:outline-none transition-shadow"
                 />
             </div>
             <button
               onClick={handlePlaceOrder}
               disabled={!customerName.trim() || cartItems.length === 0 || isOrdering}
-              className="mt-4 w-full bg-primary text-white py-3 rounded-md font-bold hover:bg-primary/90 transition-colors duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="mt-4 w-full bg-primary text-white py-3 rounded-md font-bold hover:bg-primary-dark transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed transform hover:scale-105"
             >
               {isOrdering ? 'Placing Order...' : 'Place Order'}
             </button>

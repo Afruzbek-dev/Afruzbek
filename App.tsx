@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Role, Order, CartItem, MenuItem } from './types';
 import { useLocalStorage } from './hooks/useLocalStorage';
@@ -20,7 +19,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Header role={role} setRole={setRole} />
-      <main>
+      <main className="relative">
         {role === Role.Customer ? (
           <CustomerView
             menuItems={menuItems}
@@ -38,8 +37,8 @@ const App: React.FC = () => {
           />
         )}
       </main>
-      <footer className="text-center py-4 text-secondary">
-        <p>CafeOrder &copy; 2024</p>
+      <footer className="text-center py-6 text-secondary bg-primary-dark mt-8">
+        <p className="font-semibold">&copy; 2024 CafeOrder. All Rights Reserved.</p>
       </footer>
     </div>
   );

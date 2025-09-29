@@ -14,6 +14,7 @@ export enum OrderStatus {
   InProgress = 'In Progress',
   Ready = 'Ready',
   Completed = 'Completed',
+  Cancelled = 'Cancelled',
 }
 
 export interface MenuItem {

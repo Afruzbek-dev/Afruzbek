@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,14 +11,30 @@
           extend: {
             colors: {
               primary: '#6B4226',
+              'primary-dark': '#5a371f',
               secondary: '#D6A77A',
               background: '#F8F5F2',
               'text-color': '#2E2E2E',
               accent: '#FF7F50',
+              'accent-dark': '#E66A3D',
             },
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
               serif: ['Poppins', 'serif'],
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: 0, transform: 'translateY(10px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+              },
+              pulseOnce: {
+                '0%, 100%': { transform: 'scale(1)' },
+                '50%': { transform: 'scale(1.05)' },
+              }
+            },
+            animation: {
+              fadeIn: 'fadeIn 0.5s ease-out forwards',
+              'pulse-once': 'pulseOnce 0.5s ease-in-out',
             }
           }
         }

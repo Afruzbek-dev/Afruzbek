@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function useLocalStorage<T,>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -31,7 +30,9 @@ export function useLocalStorage<T,>(key: string, initialValue: T): [T, React.Dis
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === key) {
         try {
-          setStoredValue(e.newValue ? JSON.parse(e.newValue) : initialValue);
+          if (e.newValue) {
+             setStoredValue(JSON.parse(e.newValue));
+          }
         } catch (error) {
           console.error(error);
         }
@@ -39,8 +40,7 @@ export function useLocalStorage<T,>(key: string, initialValue: T): [T, React.Dis
     };
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, initialValue]);
+  }, [key]);
 
   return [storedValue, setValue];
 }
