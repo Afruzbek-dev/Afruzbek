@@ -2,6 +2,7 @@ import React from 'react';
 import { Order, OrderStatus } from '../types';
 import { UserIcon } from './icons/UserIcon';
 import { ClockIcon } from './icons/ClockIcon';
+import { NoteIcon } from './icons/NoteIcon';
 
 interface OrderCardProps {
   order: Order;
@@ -55,6 +56,14 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, onUpdateStatus, isN
                         </li>
                     ))}
                 </ul>
+                 {order.notes && (
+                    <div className="mt-2 pt-2 border-t border-dashed">
+                        <div className="flex items-start text-sm text-gray-600">
+                            <NoteIcon className="w-4 h-4 mr-2 text-secondary flex-shrink-0 mt-1" />
+                            <p className="italic">{order.notes}</p>
+                        </div>
+                    </div>
+                )}
                 <div className="text-right font-bold text-lg text-primary-dark mt-2 border-t pt-2">
                     Total: ${order.total.toFixed(2)}
                 </div>

@@ -36,4 +36,5 @@ export interface Order {
   total: number;
   status: OrderStatus;
   createdAt: number;
+  notes?: string;
 }

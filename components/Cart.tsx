@@ -8,11 +8,12 @@ import { ShoppingCartIcon } from './icons/ShoppingCartIcon';
 interface CartProps {
   cartItems: CartItem[];
   onUpdateQuantity: (itemId: number, quantity: number) => void;
-  onPlaceOrder: (customerName: string) => void;
+  onPlaceOrder: (customerName: string, notes: string) => void;
 }
 
 export const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onPlaceOrder }) => {
   const [customerName, setCustomerName] = React.useState('');
+  const [notes, setNotes] = React.useState('');
   const [isOrdering, setIsOrdering] = React.useState(false);
 
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -22,8 +23,9 @@ export const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onPlace
       setIsOrdering(true);
       // Simulate network request
       setTimeout(() => {
-        onPlaceOrder(customerName);
+        onPlaceOrder(customerName, notes);
         setCustomerName('');
+        setNotes('');
         setIsOrdering(false);
       }, 1000);
     }
@@ -77,6 +79,17 @@ export const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onPlace
                     onChange={(e) => setCustomerName(e.target.value)}
                     placeholder="Your Name"
                     className="w-full p-3 border rounded-md focus:ring-2 focus:ring-secondary focus:outline-none transition-shadow"
+                    aria-label="Your Name"
+                />
+            </div>
+             <div className="mt-4">
+                <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Add a note (e.g. extra shot, no sugar)"
+                    rows={2}
+                    className="w-full p-3 border rounded-md focus:ring-2 focus:ring-secondary focus:outline-none transition-shadow resize-none"
+                    aria-label="Order notes"
                 />
             </div>
             <button
